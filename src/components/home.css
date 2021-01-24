@@ -1,0 +1,9 @@
+.root{
+    padding: 20px;
+    background-image: url('https://res.cloudinary.com/bdevg/image/upload/v1611501048/aircraft-723888_1920_wrxo6f.jpg');
+    width: auto;
+    max-width: 100%;
+    overflow: hidden;
+    height: 100vh;
+    background-position: right top;
+}

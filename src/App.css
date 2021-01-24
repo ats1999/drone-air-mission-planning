@@ -1,0 +1,29 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.root-container{
+  padding: 20px;
+  position: relative;
+}
+.muted__text{
+  color: gray;
+}
+.add_location_icon{
+  font-size: 50px !important;
+}
+.p_margin{
+  margin: 5px;
+}
+
+.input_radius_container{
+  margin-top: 10px;
+  display: flex;
+}
+.input_radius_container p{
+  margin-right: 4px;
+  margin-left: 4px;
+}
+.input_radius_container input{
+  padding: 3px;
+}

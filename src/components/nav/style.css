@@ -1,0 +1,26 @@
+.nav-menu{
+    display: flex;
+    background-color: lightgreen;
+    box-shadow: 0px 0px 10px black;
+    overflow: auto;
+    width: 100%;
+}
+.nav-menu li{
+    padding: 20px;
+    list-style-type: none;
+    font-size: 20px;
+}
+.nav-menu li:hover{
+    background-color: lightgray;
+}
+.nav-menu a{
+    text-decoration: none;
+}
+.nav__brand{
+    background-color: black;
+    color: white;
+    padding: 10px; 
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0px 0px 100px black;
+}
