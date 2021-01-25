@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from "react-router-dom";
 import "./style.css";
-
+import GitHubIcon from '@material-ui/icons/GitHub';
 function Nav() {
     return <ul className="nav-menu">
         <li>
@@ -14,7 +14,7 @@ function Nav() {
             <Link to="/create-plan">Create Plan</Link>
         </li>
         <li >
-            <span className="nav__brand">Plan?</span>
+            <a target="_blank" href="https://github.com/ats1999/drone-route-planning/tree/main"><GitHubIcon/></a>
         </li>
     </ul>
 }
