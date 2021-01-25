@@ -102,6 +102,7 @@ function CreatePlan(props) {
                     setTmpData:setTmpData
                 }}
             />
+<p>TS:<b>{process.env.REACT_APP_MAP_BOX_TOKEN}</b></p>
         </div>
     )
 }
