@@ -17,7 +17,7 @@ function Nav() {
             <Link to="/test">Test</Link>
         </li>
         <li >
-            <a target="_blank" href="https://github.com/ats1999/drone-route-planning/tree/main"><GitHubIcon/></a>
+            <a target="_blank" href="https://github.com/ats1999/drone-air-mission-planning"><GitHubIcon/></a>
         </li>
     </ul>
 }
