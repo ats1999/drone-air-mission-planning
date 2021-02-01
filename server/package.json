@@ -1,0 +1,23 @@
+{
+  "name": "drone-route-planning-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@turf/turf": "^6.3.0",
+    "chalk": "^4.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "static": "node static-points/staticPoints",
+    "start": "npm run static && node index.js "
+  },
+  "author": "Rahul (github.com/ats1999)",
+  "license": "ISC"
+}
