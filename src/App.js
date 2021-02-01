@@ -2,6 +2,7 @@ import Home from "./components/Home";
 import Nav from "./components/nav/Nav";
 import CreatePlan from "./containers/map/CreatePlan";
 import ViewPlans from "./containers/map/ViewPlans";
+import Test from "./components/map/Test";
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,6 +21,9 @@ function App() {
         </Route>
         <Route exact path="/create-plan">
           <CreatePlan />
+        </Route>
+        <Route exact path="/test">
+          <Test />
         </Route>
     </Switch>
   </Router>

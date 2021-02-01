@@ -13,6 +13,9 @@ function Nav() {
         <li>
             <Link to="/create-plan">Create Plan</Link>
         </li>
+        <li>
+            <Link to="/test">Test</Link>
+        </li>
         <li >
             <a target="_blank" href="https://github.com/ats1999/drone-route-planning/tree/main"><GitHubIcon/></a>
         </li>
