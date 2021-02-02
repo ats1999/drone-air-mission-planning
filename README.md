@@ -114,6 +114,9 @@ socket.on("cords",(data)=>{
 Open `server/geojson.json` file after running `npm run static`  and copy the file or it's contents.
 
 **Static coordinates for `Copied data example`**
+
+> Note: Circles will be converted into polygon so it can scale with relative to the radius according to the map zoom lavel
+
 ```js
 {
     "lines":[
@@ -219,6 +222,22 @@ Open `server/geojson.json` file after running `npm run static`  and copy the fil
   ]
 }
 ```
+
+## More control
+Go to `server\config.json`
+It has the default content 
+```js
+{
+    "sendDataAtTimeInterval":10,
+    "circleSteps":50,
+    "lineSignmentLength":1
+}
+```
+| Property | Description | Mode |
+| --- | --- | --- |
+| sendDataAtTimeInterval | When you run live simulation,<br>Then it requires a time interval. <br> It'll send data at the time <br>interval of specified milliseconds | Live simulation |
+| circleSteps | The number of coordinates will be <br>generated for **polygon**.<br>As i said earlier<br>we are making a polygon<br> around the radius of the circle. <br>More number of coordinates, the more rounded circle will be. | Both |
+| lineSignmentLength | The number of coordinates <br> will be generated for line in ***1KM***<br>For example, if it is 1 then 1000 coordinates will be generated in 1KM of line. | Live and Static, both |
 
 ## Our plan
 
