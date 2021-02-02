@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@turf/turf": "^6.3.0",
+    "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -16,7 +17,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "static": "node static-points/staticPoints",
-    "start": "npm run static && node index.js "
+    "start": "npm run static && node index.js ",
+    "dev":"npm run static && nodemon index.js"
   },
   "author": "Rahul (github.com/ats1999)",
   "license": "ISC"
