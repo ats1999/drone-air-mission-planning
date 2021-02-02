@@ -6,19 +6,6 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import {Layers} from "./UtilMap";
 import io from "socket.io-client";
 
-const socket = io.connect(`http://localhost:${process.env.REACT_APP_IO_PORT || 5000}`);
-socket.on("connect", () => {
-    console.log('Socket connected',socket.id); 
-});
-
-socket.on("cords",(data)=>{
-    console.log(data)
-});
-socket.on("hello", (arg) => {
-  console.log(arg); // world
-});
-socket.emit("hello","world")
-console.log("Connecting the socket")
 const ViewPlans=(props)=>{
     const [viewport, setViewport] = useState({
       width: "100%",
@@ -30,7 +17,17 @@ const ViewPlans=(props)=>{
 
     const [lines, setLines] = useState([]);
     useEffect(()=>{
-    },[]);
+        const socket = io.connect(`http://localhost:${process.env.REACT_APP_IO_PORT || 5000}`);
+        socket.on("connect",()=>{
+            socket.on("cords",(data)=>{
+                console.log(data)
+            });
+            socket.on("hello", (arg) => {
+                console.log(arg); // world
+            });
+            socket.emit("hello","world")
+        })
+    });
     return <div className="root-container">
         <ReactMapGL
             {...viewport}

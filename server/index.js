@@ -16,7 +16,7 @@ io.on('connection', (socket) => {
     console.log(chalk.yellow("A socket connected!"));
     socket.emit("hello", "world");
     socket.on("hello",(arg)=>console.log(arg))
-    //IO(socket);
+    IO(socket);
 });
 app.use(cors());
 app.use(express.json());
@@ -27,11 +27,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get("/",(_,res)=>{
     res.send("This is the thing, i want")
 })
-app.listen(port,(err)=>{
-    if(!err) 
-        console.log("server is started..@ PORT "+port)
-    else console.log("Problem....!!!!")
-});
+// app.listen(port,(err)=>{
+//     if(!err) 
+//         console.log("server is started..@ PORT "+port)
+//     else console.log("Problem....!!!!")
+// });
 IOServer.listen(5000,(err)=>{
     if(!err) 
         console.log("IO server is started..@ PORT "+IO_PORT)
