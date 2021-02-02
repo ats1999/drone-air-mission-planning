@@ -1,6 +1,7 @@
 const staticInput = require("../input.json");
 const chalk = require('chalk');
 const log = console.log;
+const config = require("../config.json");
 const geoJsons = {
     lines:[],
     points:[],
@@ -22,7 +23,7 @@ log(chalk.white.magentaBright("=================================================
  * @param {Number} radius radius of cirlcle
  */
 const circleToPolygon=(center,radius)=>{
-    const steps = staticInput.steps || 50;
+    const steps = config.circleSteps || 50;
     const options = {steps: steps, units: 'kilometers',properties:{
         madeUsing:"Circle to polygon"
     }};
@@ -54,11 +55,11 @@ const getLineChunksForLineString=(cords)=>{
  * @param {Arrat} ep [lon,lat] end point of the line sigment 
  */
 const getLineChunk=(sp,ep)=>{
-    const dist = parseInt(distance(point(sp),point(ep),{units:"kilometers"}));
+    const dist = parseInt(distance(point(sp),point(ep),{units:"kilometers"}))*1000;
     let cp = sp; // current point
 
     // distance between generated two points
-    let sigmentLength = dist/staticInput.sigmentLength || dist/1;
+    let sigmentLength = dist/config.lineSignmentLength || dist/1;
         sigmentLength = parseInt(sigmentLength);
 
     const chunkCords = [sp];
@@ -74,7 +75,7 @@ const getLineChunk=(sp,ep)=>{
     return chunkCords;
 }
 log(chalk.yellow("Getting coordinates of polygon for circle..."));
-log(chalk.white.bgRed(`The ploygons will generated over ${staticInput.steps+1 || 51} coordinates\n`))
+log(chalk.white.bgRed(`The ploygons will generated over ${config.circleSteps+1 || 51} coordinates\n`))
 //generate geojson polygon for each circle
 staticInput.circles.forEach((circle,idx)=>{
     const polygon = circleToPolygon(circle.cords,circle.radius);

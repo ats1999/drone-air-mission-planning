@@ -1,3 +1,5 @@
 {
-    "sendDataAtTimeInterval":5000
+    "sendDataAtTimeInterval":10,
+    "circleSteps":50,
+    "lineSignmentLength":1
 }

@@ -25,14 +25,18 @@ const continueSendData=async(line,socket,id)=>{
     }
 }
 
-function IO(socket){
-    socket.on("disconnect",()=>{
-        console.log(chalk.red("A socket disconnected!"));
+function IO(io){
+    io.on('connection', (socket) => {
+        console.log(chalk.yellow("A socket connected!"));
+        socket.on("disconnect",()=>{
+            console.log(chalk.red("A socket disconnected!"));
+        });
+        
+        staticData.lines.forEach((line,id)=>{
+            continueSendData(line,socket,id);
+        })
     });
 
-    staticData.lines.forEach((line,id)=>{
-        continueSendData(line,socket,id);
-    })
 }
 
 module.exports = IO;
