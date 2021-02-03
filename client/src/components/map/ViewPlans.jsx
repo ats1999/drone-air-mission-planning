@@ -11,7 +11,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import Fab from '@material-ui/core/Fab';
 import { makeStyles } from '@material-ui/core/styles';
-import staticData from "./static";
 
 const useStyles = makeStyles({
     operationContainer:{
