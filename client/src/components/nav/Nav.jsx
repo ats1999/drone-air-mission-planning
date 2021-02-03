@@ -14,7 +14,7 @@ function Nav() {
             <Link to="/create-plan">Create Plan</Link>
         </li>
         <li>
-            <Link to="/test">Test</Link>
+            <a target="_blank" href="https://github.com/ats1999/drone-air-mission-planning/blob/main/README.md">Learn Server</a>
         </li>
         <li >
             <a target="_blank" href="https://github.com/ats1999/drone-air-mission-planning"><GitHubIcon/></a>

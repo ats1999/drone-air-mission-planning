@@ -71,7 +71,7 @@ const getLineChunk=(sp,ep)=>{
         chunkCords.push(np.geometry.coordinates);
     }
     chunkCords.push(ep);
-    log(chalk.cyan(`        Generated ${chunkCords.length} coordinates between two coordinates`))
+    log(chalk.cyan(`        Generated ${chunkCords.length} coordinates between [${cp}] and [${ep}]`))
     return chunkCords;
 }
 log(chalk.yellow("Getting coordinates of polygon for circle..."));

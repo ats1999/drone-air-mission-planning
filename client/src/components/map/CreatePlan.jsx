@@ -16,8 +16,8 @@ import GetCurrentFeature from "./UtilMap"
 const useStyles = makeStyles({
     operationContainer:{
         position:"absolute",
-        top:0,
-        left:0,
+        bottom:0,
+        right:0,
         backgroundColor:"white",
         color:"black",
         margin:5,
@@ -26,7 +26,11 @@ const useStyles = makeStyles({
         height:300,
         zIndex:1000,
         boxShadow:'0px 0px 30px lightgreen',
-        border:"4px solid lightgreen"
+        border:"4px solid lightgreen",
+        '@media only screen and (max-width: 500px)':{
+            height:"200px",
+            width:"300px"
+        }
     },
     label:{
         padding:5
@@ -52,6 +56,7 @@ function CreatePlan(props) {
             addSource(curData,operation)
         }
     },[curData]);
+    let accessToken = localStorage.mapToken || process.env.REACT_APP_MAP_BOX_TOKEN;
     return (
         <div className="root-container">
             <ReactMapGL
@@ -60,8 +65,8 @@ function CreatePlan(props) {
                 }}
                 {...viewport}
                 onViewportChange={nextViewport => setViewport(nextViewport)}
-                mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_TOKEN}
-                mapStyle={"mapbox://styles/rafilos556/ckhrp0auk0ol119s02qvctvh4"}
+                mapboxApiAccessToken={accessToken}
+                mapStyle={"mapbox://styles/mapbox/streets-v11"}
             >
                 
                 <div style={{position: 'absolute', right: 10,bottom:10}}>
@@ -122,7 +127,6 @@ const Operations=({getOperation,operation,mapProps,flushData})=>{
             <MenuItem value="line">Line</MenuItem>
             <MenuItem value="point">Point</MenuItem>
             <MenuItem value="circle">Circle</MenuItem>
-            <MenuItem value="polygon">Polygon</MenuItem>
         </Select>
     </FormControl>
     <hr/>

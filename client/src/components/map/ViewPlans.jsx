@@ -11,12 +11,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import Fab from '@material-ui/core/Fab';
 import { makeStyles } from '@material-ui/core/styles';
+import staticData from "./static";
 
 const useStyles = makeStyles({
     operationContainer:{
         position:"absolute",
-        top:0,
-        left:0,
+        bottom:0,
+        right:0,
         backgroundColor:"white",
         color:"black",
         margin:5,
@@ -40,12 +41,15 @@ const ViewPlans=({store})=>{
     const [show, setShow] = useState({
         points:true,lines:true,circles:true
     })
+
+    let accessToken = localStorage.mapToken || process.env.REACT_APP_MAP_BOX_TOKEN;
+
     return <div className="root-container">
         <ReactMapGL
             {...viewport}
             onViewportChange={nextViewport => setViewport(nextViewport)}
-            mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_TOKEN}
-            mapStyle={"mapbox://styles/rafilos556/ckhrp0auk0ol119s02qvctvh4"}
+            mapboxApiAccessToken={accessToken}
+            mapStyle={"mapbox://styles/mapbox/streets-v11"}
         >
             <div style={{position: 'absolute', right: 10,bottom:10}}>
                 <GeolocateControl />
@@ -114,6 +118,7 @@ const ShowLayers=({show,setShow,store})=>{
       <Fab onClick={()=>{
            const el = document.createElement('textarea');
            el.value = JSON.stringify(store);
+           // we can use staticData(store), but it is freezing browser
            el.setAttribute('readonly', '');
            el.style.position = 'absolute';
            el.style.left = '-9999px';
