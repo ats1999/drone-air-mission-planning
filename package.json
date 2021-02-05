@@ -1,0 +1,25 @@
+{
+  "name": "drone-air-mission-planning",
+  "version": "1.0.0",
+  "description": "Create plan for your air mission",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ats1999/drone-air-mission-planning.git"
+  },
+  "keywords": [
+    "drone",
+    "longitude",
+    "latitude",
+    "coordinates"
+  ],
+  "author": "Rahul",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ats1999/drone-air-mission-planning/issues"
+  },
+  "homepage": "https://github.com/ats1999/drone-air-mission-planning#readme"
+}

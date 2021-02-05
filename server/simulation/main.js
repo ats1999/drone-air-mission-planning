@@ -1,6 +1,7 @@
 const chalk = require('chalk');
 const staticData = require("../geojson.json");
 const config = require("../config.json");
+const custom = require("../custom");
 const log = console.log;
 
 // this will help us to remember start index even, if socket is disconnected
@@ -20,7 +21,7 @@ const continueSendData=async(line,socket,id)=>{
     for(let i=cordIdx.id||0; i<cords.length; i++){
         await sleep();
         log(chalk.green(`Sent coordinates ${i+1} for line ${id+1} and coordinates:`),cords[i]);
-        socket.emit('cords',{cord:cords[i],id})
+        socket.emit('cords',custom.sendCurCords(cords[i],id))
         cordIdx.id = i;
     }
 }

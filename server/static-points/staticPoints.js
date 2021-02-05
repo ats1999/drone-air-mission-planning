@@ -17,6 +17,16 @@ log("We have total:"+`
 `);
 
 log(chalk.white.magentaBright("==========================================================================="));
+
+const fs = require('fs');
+function writeObjectToFile(obj){
+    return new Promise((resolve,reject)=>{
+        fs.writeFile("./geojson.json", JSON.stringify(obj),"utf8", function (err) {
+            if (err) reject(err);
+            else resolve();
+        });
+    })
+}
 /**
  * generate coordinates for circle.
  * @param {Array} center [longitude,latitude]
@@ -59,11 +69,11 @@ const getLineChunk=(sp,ep)=>{
     let cp = sp; // current point
 
     // distance between generated two points
-    let sigmentLength = dist/config.lineSignmentLength || dist/1;
+    let sigmentLength = dist/(config.lineSignmentLength || 1);
         sigmentLength = parseInt(sigmentLength);
-
     const chunkCords = [sp];
-    for(let i=0; i<dist; i++){
+    let numPoints = ((dist/1000)*(config.lineSignmentLength||1));
+    for(let i=0; i<numPoints; i++){
         const line = lineString([cp,ep]);
 
         // new point
@@ -71,7 +81,7 @@ const getLineChunk=(sp,ep)=>{
         chunkCords.push(np.geometry.coordinates);
     }
     chunkCords.push(ep);
-    log(chalk.cyan(`        Generated ${chunkCords.length} coordinates between [${cp}] and [${ep}]`))
+    log(chalk.cyan(`        Generated ${chunkCords.length} coordinates between [${cp}] and [${ep}] -- ${chalk.yellow(dist/1000)} KM`))
     return chunkCords;
 }
 log(chalk.yellow("Getting coordinates of polygon for circle..."));
@@ -112,11 +122,17 @@ staticInput.lines.forEach((line,idx)=>{
     geoJsons.lines.push(lineGeoJson);
 });
 
-const path = require("path");
-const fs = require('fs');
-log(chalk.white.magentaBright("==========================================================================="));
-log(chalk.yellow('\nGenerating geojson file...'))
-fs.writeFile("./geojson.json", JSON.stringify(geoJsons),"utf8", function (err) {
-  if (err) throw err;
-  log(chalk.green('\nGenerated geojson file\n geojson operation completed'))
-});
+async function WTF(){
+    log(chalk.white.magentaBright("==========================================================================="));
+    log(chalk.yellow('\nGenerating geojson file...'))
+    await writeObjectToFile(geoJsons).then(res=>{
+        log(chalk.yellow("Generated geojson..."));
+    }).catch(err=>{
+        log(chalk.red("ERROR...",err));
+    })
+}
+WTF();
+// fs.writeFile("./geojson.json", JSON.stringify(geoJsons),"utf8", function (err) {
+//   if (err) throw err;
+//   log(chalk.green('\nGenerated geojson file\n geojson operation completed'))
+// });
