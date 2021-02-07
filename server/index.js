@@ -5,7 +5,6 @@ require('dotenv').config();
 const morgan = require('morgan')
 const app = express();
 const IO = require("./simulation/main");
-const chalk = require('chalk');
 const http = require("http");
 const IOServer = http.createServer(app);
 const io = require("socket.io")(IOServer);
