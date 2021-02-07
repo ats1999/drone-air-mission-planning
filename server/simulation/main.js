@@ -13,7 +13,12 @@ const sleep=()=>{
 }
 //console.log(staticLines[0].geometry.coordinates.length)
 
-// continusly send data through socket
+/**
+ * 
+ * @param {Object} line geojson repersentation of line 
+ * @param {Object} socket socket object of socket.io
+ * @param {String} id id of the line
+ */
 const continueSendData=async(line,socket,id)=>{
     const cords = line.geometry.coordinates;
     log(chalk.green(`We got line`),id+1);

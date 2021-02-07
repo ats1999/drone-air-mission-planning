@@ -19,6 +19,11 @@ log("We have total:"+`
 log(chalk.white.magentaBright("==========================================================================="));
 
 const fs = require('fs');
+
+/**
+ * Takes an object and write string repersentation of the object int file.
+ * @param {Object} obj object to written
+ */
 function writeObjectToFile(obj){
     return new Promise((resolve,reject)=>{
         fs.writeFile("./geojson.json", JSON.stringify(obj),"utf8", function (err) {
@@ -50,6 +55,10 @@ const getPoint=(center)=>{
     return pointGeoJson;
 }
 
+/**
+ * Return a number of points between those coordinates.
+ * @param {Array} cords array of coordinates
+ */
 const getLineChunksForLineString=(cords)=>{
     let lineCords = [];
     for(let i=0; i<cords.length-1; i++){
@@ -132,7 +141,3 @@ async function WTF(){
     })
 }
 WTF();
-// fs.writeFile("./geojson.json", JSON.stringify(geoJsons),"utf8", function (err) {
-//   if (err) throw err;
-//   log(chalk.green('\nGenerated geojson file\n geojson operation completed'))
-// });
