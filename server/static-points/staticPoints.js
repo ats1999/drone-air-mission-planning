@@ -7,7 +7,7 @@ const geoJsons = {
     points:[],
     polygons:[], // a circle can be made by polygons 
 }
-const {circle,point,lineString,lineChunk,along,distance} = require("@turf/turf");
+const {circle,point,lineString,length,along,distance} = require("@turf/turf");
 
 log(chalk.yellow.bgGreen.bold('Generating coordinates...\n'))
 log("We have total:"+`
@@ -59,40 +59,22 @@ const getPoint=(center)=>{
  * Return a number of points between those coordinates.
  * @param {Array} cords array of coordinates
  */
-const getLineChunksForLineString=(cords)=>{
-    let lineCords = [];
-    for(let i=0; i<cords.length-1; i++){
-        const lineChunk = getLineChunk(cords[i],cords[i+1]);
-        lineCords = [...lineCords,...lineChunk];
+const getLineChunksForLineString=(line)=>{
+    const sp = line[0], ep = line[line.length-1];
+    const dist = length(lineString(line), {units: 'kilometers'});
+
+    // distance b/w two generated points
+    const sigmentLength = 1/config.lineSignmentLength;
+    const lineStringJson = lineString(line);
+    const cords = [];
+    for(let i=1; i<dist*config.lineSignmentLength; i++){
+        const np = along(lineStringJson, i*sigmentLength, {units:"kilometers"});
+        cords.push(np.geometry.coordinates);
     }
-    return lineString(lineCords);
+    log(chalk.cyan(`        Generated ${cords.length} coordinates between [${sp}] and [${ep}] -- ${chalk.yellow(dist)} KM`))
+    return lineString(cords);
 }
 
-/**
- * Get line chunks between two points
- * @param {Array} sp [lon,lat] start point of line sigment
- * @param {Arrat} ep [lon,lat] end point of the line sigment 
- */
-const getLineChunk=(sp,ep)=>{
-    const dist = parseInt(distance(point(sp),point(ep),{units:"kilometers"}))*1000;
-    let cp = sp; // current point
-
-    // distance between generated two points
-    let sigmentLength = dist/(config.lineSignmentLength || 1);
-        sigmentLength = parseInt(sigmentLength);
-    const chunkCords = [sp];
-    let numPoints = ((dist/1000)*(config.lineSignmentLength||1));
-    for(let i=0; i<numPoints; i++){
-        const line = lineString([cp,ep]);
-
-        // new point
-        let np = along(line, sigmentLength, { units:"kilometers"});
-        chunkCords.push(np.geometry.coordinates);
-    }
-    chunkCords.push(ep);
-    log(chalk.cyan(`        Generated ${chunkCords.length} coordinates between [${cp}] and [${ep}] -- ${chalk.yellow(dist/1000)} KM`))
-    return chunkCords;
-}
 log(chalk.yellow("Getting coordinates of polygon for circle..."));
 log(chalk.white.bgRed(`The ploygons will generated over ${config.circleSteps+1 || 51} coordinates\n`))
 //generate geojson polygon for each circle
@@ -127,9 +109,12 @@ staticInput.lines.forEach((line,idx)=>{
     log(chalk.green(`   Line - ${idx+1}
         Length:[${line.length}]
     `))
-    const lineGeoJson = getLineChunksForLineString(line);
-    geoJsons.lines.push(lineGeoJson);
+    //const lineGeoJson = getLineChunksForLineString(line);
+    //geoJsons.lines.push(lineGeoJson);
+    geoJsons.lines.push(lineString(line));
 });
+
+
 
 async function WTF(){
     log(chalk.white.magentaBright("==========================================================================="));

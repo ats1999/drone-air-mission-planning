@@ -3,6 +3,8 @@ import Nav from "./components/nav/Nav";
 import CreatePlan from "./containers/map/CreatePlan";
 import ViewPlans from "./containers/map/ViewPlans";
 import Test from "./components/map/Test";
+import Live from "./components/Live";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -24,6 +26,9 @@ function App() {
         </Route>
         <Route exact path="/test">
           <Test />
+        </Route>
+        <Route exact path="/live">
+          <Live />
         </Route>
     </Switch>
   </Router>

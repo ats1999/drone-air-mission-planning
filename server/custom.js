@@ -4,7 +4,9 @@
  * @param {Number} id index as id of the drone
  */
 function sendCurCords(cords,id){
-    return `This drone cords is ${cords} and id id ${id}`;
+    return {
+        cords,id
+    };
 }
 module.exports = {
     sendCurCords

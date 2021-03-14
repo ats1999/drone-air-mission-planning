@@ -2,8 +2,10 @@ const chalk = require('chalk');
 const staticData = require("../geojson.json");
 const config = require("../config.json");
 const custom = require("../custom");
-const log = console.log;
+const input = require("../input.json");
+const { lineString,length,along } = require('@turf/turf');
 
+const log = console.log;
 // this will help us to remember start index even, if socket is disconnected
 const cordIdx = {};
 const sleep=()=>{
@@ -22,12 +24,34 @@ const sleep=()=>{
 const continueSendData=async(line,socket,id)=>{
     const cords = line.geometry.coordinates;
     log(chalk.green(`We got line`),id+1);
-
     for(let i=cordIdx.id||0; i<cords.length; i++){
         await sleep();
         log(chalk.green(`Sent coordinates ${i+1} for line ${id+1} and coordinates:`),cords[i]);
-        socket.emit('cords',custom.sendCurCords(cords[i],id))
+        socket.emit('cords',custom.sendCurCords(cords[i],id));
         cordIdx.id = i;
+    }
+}
+
+/**
+ * 
+ * @param {Object} line geojson repersentation of line 
+ * @param {Object} socket socket object of socket.io
+ * @param {String} id id of the line
+ */
+const sendData = async(line,socket,id)=>{
+    const dist = length(lineString(line), {units: 'kilometers'});
+
+    // distance b/w two generated points
+    const sigmentLength = 1/config.lineSignmentLength;
+    const lineStringJson = lineString(line);
+    for(let i=cordIdx.id||0; i<dist*config.lineSignmentLength;){
+        const np = along(lineStringJson, i*sigmentLength, {units:"kilometers"});
+        const nCords = np.geometry.coordinates;
+
+        log(chalk.green(`Sent coordinates ${i+1} for line ${id+1} and coordinates:`),nCords);
+        socket.emit('cords',custom.sendCurCords(nCords,id));
+        cordIdx.id = ++i;
+        await sleep();
     }
 }
 
@@ -39,10 +63,15 @@ function IO(io){
         });
         
         staticData.lines.forEach((line,id)=>{
-            continueSendData(line,socket,id);
-        })
-    });
+            //continueSendData(line,socket,id);
+        });
 
+        input.lines.forEach((line,id)=>{
+            sendData(line,socket,id);
+        })
+
+        socket.emit('static__data',staticData);
+    });
 }
 
 module.exports = IO;

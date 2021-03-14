@@ -1,62 +1,47 @@
-import React,{useState,useEffect} from "react";
-import ReactMapGL from 'react-map-gl';
-import {GeolocateControl,FullscreenControl,NavigationControl} from "react-map-gl";
-import {Marker} from "react-map-gl";
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import {Layers} from "./UtilMap";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 
-const ViewPlans=(props)=>{
-    const [viewport, setViewport] = useState({
-      width: "100%",
-      height: 500,
-      latitude: 26.127565,
-      longitude: 85.420509,
-      zoom: 8
+let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDBjM2ZiMDFjMWU3NDE1NWQ3ZjVmZWMiLCJpYXQiOjE2MTUxMjExNjR9.d5upKO5D7L7vNAc9zhETOqzaKwfdrBxXpceY-C4P3Dw";
+let socket;
+const Test = () => {
+  const [input, setInput] = useState("");
+  const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDBjM2ZiMDFjMWU3NDE1NWQ3ZjVmZWMiLCJpYXQiOjE2MTUxMjExNjR9.d5upKO5D7L7vNAc9zhETOqzaKwfdrBxXpceY-C4P3Dw");
+
+  useEffect(()=>{
+
+    //return () => socket.disconnect();
+  },[]);
+
+  const handleJoin = () => {
+    socket = io("http://localhost:5001/", {
+      query: {
+        token: token,
+        orgId: input,
+      },
     });
 
-    const [lines, setLines] = useState([]);
-    useEffect(()=>{
-        const socket = io.connect(`http://localhost:${process.env.REACT_APP_IO_PORT || 5000}`);
-        socket.on("connect",()=>{
-            socket.on("cords",(data)=>{
-                console.log(data)
-            });
-            socket.on("hello", (arg) => {
-                console.log(arg); // world
-            });
-            socket.emit("hello","world")
-        })
-    });
-    return <div className="root-container">
-        <ReactMapGL
-            {...viewport}
-            onViewportChange={nextViewport => setViewport(nextViewport)}
-            mapboxApiAccessToken={process.env.REACT_APP_MAP_BOX_TOKEN}
-            mapStyle={"mapbox://styles/rafilos556/ckhrp0auk0ol119s02qvctvh4"}
-        >
-            <div style={{position: 'absolute', right: 10,bottom:10}}>
-                <GeolocateControl />
-                <FullscreenControl />
-                <NavigationControl />
-            </div>
-            
-            {/* display current longitude and latitude */}
-            <div style={{position: 'absolute', left: 10,bottom:30,padding:5,backgroundColor:"white",color:"black"}}>
-                <b>lng: </b>{viewport.longitude} <br/>
-                <b>lat: </b>{viewport.latitude}
-            </div>
-            
+    socket.on('join',(data)=>{
+      console.log('join: ',data);
+    })
 
-            {/* display lines */}
-            {
-                lines.map((line,idx)=>{
-                        return <Layers.Line key={`view-plan-line-${idx}`} cords={line.cords} id={`view-plan-line-${idx}`} />
-                })
-            }
+    socket.on('test',data=>console.log('test->',data));
+  };
 
-        </ReactMapGL>
+  const testEvent=()=>{
+    socket.emit("join", "5283920058631409231");
+  }
+  return (
+    <div>
+      <p>OrgId</p>
+      <input value={input} onChange={(e) => setInput(e.target.value)} />
+      <p>Token</p>
+      <input value={token} onChange={(e) => setToken(e.target.value)} />
+      <br/>
+      <button onClick={handleJoin}>Join</button>
+      <br/>
+      <button onClick={testEvent}>Test</button>
     </div>
-}
+  );
+};
 
-export default ViewPlans;
+export default Test;
