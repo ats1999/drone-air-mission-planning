@@ -4,19 +4,21 @@ const config = require("../config.json");
 const custom = require("../custom");
 const input = require("../input.json");
 const { lineString,length,along } = require('@turf/turf');
-
 const log = console.log;
+
 // this will help us to remember start index even, if socket is disconnected
 const cordIdx = {};
+
+// wait for few seconds before sending the coordinates
 const sleep=()=>{
     return new Promise((res)=>{
         setTimeout(() =>res(),config.sendDataAtTimeInterval);
     })
 }
-//console.log(staticLines[0].geometry.coordinates.length)
 
 /**
- * 
+ * This method is depreacted, but kept for testing
+ * It uses much memory than required
  * @param {Object} line geojson repersentation of line 
  * @param {Object} socket socket object of socket.io
  * @param {String} id id of the line
@@ -30,20 +32,23 @@ const continueSendData=async(line,socket,id)=>{
         socket.emit('cords',custom.sendCurCords(cords[i],id));
         cordIdx.id = i;
     }
+    log(chalk.green(`Finished line ${id+1}`));
 }
 
 /**
- * 
+ * This method will send coordinates on the fly
+ * It will continually generate the data
  * @param {Object} line geojson repersentation of line 
  * @param {Object} socket socket object of socket.io
  * @param {String} id id of the line
  */
 const sendData = async(line,socket,id)=>{
     const dist = length(lineString(line), {units: 'kilometers'});
-
+    log(chalk.green(`Line ${id+1} and length: ${dist} km`));
     // distance b/w two generated points
     const sigmentLength = 1/config.lineSignmentLength;
     const lineStringJson = lineString(line);
+
     for(let i=cordIdx.id||0; i<dist*config.lineSignmentLength;){
         const np = along(lineStringJson, i*sigmentLength, {units:"kilometers"});
         const nCords = np.geometry.coordinates;

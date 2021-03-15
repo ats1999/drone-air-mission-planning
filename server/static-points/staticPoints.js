@@ -8,6 +8,7 @@ const geoJsons = {
     polygons:[], // a circle can be made by polygons 
 }
 const {circle,point,lineString,length,along,distance} = require("@turf/turf");
+const fs = require('fs');
 
 log(chalk.yellow.bgGreen.bold('Generating coordinates...\n'))
 log("We have total:"+`
@@ -18,7 +19,6 @@ log("We have total:"+`
 
 log(chalk.white.magentaBright("==========================================================================="));
 
-const fs = require('fs');
 
 /**
  * Takes an object and write string repersentation of the object int file.
@@ -32,6 +32,7 @@ function writeObjectToFile(obj){
         });
     })
 }
+
 /**
  * generate coordinates for circle.
  * @param {Array} center [longitude,latitude]
@@ -56,6 +57,7 @@ const getPoint=(center)=>{
 }
 
 /**
+ * This method is depreacted...
  * Return a number of points between those coordinates.
  * @param {Array} cords array of coordinates
  */
@@ -77,6 +79,8 @@ const getLineChunksForLineString=(line)=>{
 
 log(chalk.yellow("Getting coordinates of polygon for circle..."));
 log(chalk.white.bgRed(`The ploygons will generated over ${config.circleSteps+1 || 51} coordinates\n`))
+
+
 //generate geojson polygon for each circle
 staticInput.circles.forEach((circle,idx)=>{
     const polygon = circleToPolygon(circle.cords,circle.radius);
@@ -91,6 +95,8 @@ staticInput.circles.forEach((circle,idx)=>{
 });
 
 log(chalk.yellow("Generating geojson for points..."));
+
+
 //generate geojson points
 staticInput.points.forEach((pointInput,idx)=>{
     const pointGeoJson = getPoint(pointInput);
@@ -103,14 +109,19 @@ staticInput.points.forEach((pointInput,idx)=>{
 });
 
 log(chalk.yellow("Generating line chunks for lines..."));
+
+
 // generate lines
 staticInput.lines.forEach((line,idx)=>{
     // log
     log(chalk.green(`   Line - ${idx+1}
         Length:[${line.length}]
     `))
+    
+    // it'll use much run time memory
     //const lineGeoJson = getLineChunksForLineString(line);
     //geoJsons.lines.push(lineGeoJson);
+    chalk.green('Generated geojson');
     geoJsons.lines.push(lineString(line));
 });
 
