@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/",(_,res)=>{
-    res.send("This is the thing, i want")
+    res.send("Server is up and running")
 })
 
 IOServer.listen(IO_PORT,(err)=>{

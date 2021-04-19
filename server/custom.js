@@ -5,7 +5,9 @@
  */
 function sendCurCords(cords,id){
     return {
-        cords,id
+        'gps.lon':cords[0],
+	'gps.lat':cords[1],
+id
     };
 }
 module.exports = {
