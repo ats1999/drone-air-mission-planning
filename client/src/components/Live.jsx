@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import ReactMapGL from 'react-map-gl';
 import {point,bearing} from "@turf/turf";
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 import {
     GeolocateControl,
@@ -23,6 +24,18 @@ const lineLayer = {
         'line-color': 'red',
         'line-width':4
     }
+}
+
+function AlertComponent(){
+    return <Alert severity="warning">
+    <AlertTitle>Websocket connection error!</AlertTitle>
+    <p>It looks like <b>socket</b> is not connected.</p>
+    <p>We are using free servers, so there might be pricing issue.</p>
+    <p>To stream the data use  this <a target="_blank" href="https://github.com/ats1999/drone-air-mission-planning/blob/main/README.md">locally</a></p>
+    <hr/><hr/>
+    <p>If you are already using it locally then make sure that socket is properly connected.</p>
+    This is a warning alert — <strong>check it out!</strong>
+  </Alert>
 }
 function Live() {
     const [viewport, setViewport] = useState({
@@ -68,6 +81,7 @@ function Live() {
     let accessToken = localStorage.mapToken || process.env.REACT_APP_MAP_BOX_TOKEN;
     return (
         <div>
+            {!geojsonData && <AlertComponent/>}
             <ReactMapGL
                 {...viewport}
                 onViewportChange={nextViewport => setViewport(nextViewport)}
