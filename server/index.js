@@ -9,7 +9,7 @@ const http = require("http");
 const IOServer = http.createServer(app);
 const io = require("socket.io")(IOServer);
 
-const IO_PORT=process.env.IO_PORT||5000;
+const IO_PORT=process.env.IO_PORT||5005;
 
 IO(io);
 
