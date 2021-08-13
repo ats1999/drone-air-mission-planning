@@ -2,7 +2,7 @@
 
 > Plan the route, as you wish
 
-Visit [https://drone.bdevg.com/](https://drone.bdevg.com/create-plan) to create the plan. On this page, you can see a select box at the top left corner. Here you can select what kind of operation do you want, whether circle centre, point centre, generate line coordinates.
+Visit [here](https://drone-air-mission-planning.vercel.app/view-plan) to create the plan. On this page, you can see a select box at the top left corner. Here you can select what kind of operation do you want, whether circle centre, point centre, generate line coordinates.
 
 ## What we support?
 
@@ -21,7 +21,7 @@ Go to [https://drone.bdevg.com/create-plan](https://drone.bdevg.com/create-plan)
 > In this case, you can get you <b>[map box access token from here](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/) for free</b>. After you got the access token, open browser console on this website and set toekn in **localStorage** like `localStorage.mapToken = "Your_token"`.
 > Now, refresh the page and you are on the go.
 
-After you are done with the creation of the plans, go to this [https://drone.bdevg.com/view-plan](https://drone.bdevg.com/view-plan) URL and see if everything is working fine.
+After you are done with the creation of the plans, go to this [view-plan](https://drone-air-mission-planning.vercel.app/view-plan) URL and see if everything is working fine.
 
 Then click on the **COPY GEOJSON DATA** button.
 
