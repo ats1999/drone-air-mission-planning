@@ -14,7 +14,7 @@ Currently, we support only three kinds of operations
 
 ## Uses
 
-Go to [https://drone.bdevg.com/create-plan](https://drone.bdevg.com/create-plan) URL then select any operation from the left card. Now, you can create lines, points and circles.
+Go to [create-plan](https://drone-air-mission-planning.vercel.app/view-plan) URL then select any operation from the left card. Now, you can create lines, points and circles.
 
 > What to do if map is not visible on the website.
 > Reason could be **access token**. We are using free version of mapbox API **access token**.
