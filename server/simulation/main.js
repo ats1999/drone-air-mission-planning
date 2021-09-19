@@ -4,6 +4,7 @@ const config = require("../config.json");
 const custom = require("../custom");
 const input = require("../input.json");
 const { lineString, length, along } = require('@turf/turf');
+const turf = require('@turf/turf');
 const log = console.log;
 
 // this will help us to remember start index even, if socket is disconnected
@@ -48,13 +49,18 @@ const sendData = async (line, socket, id) => {
     // distance b/w two generated points
     const sigmentLength = 1 / config.lineSignmentLength;
     const lineStringJson = lineString(line);
-
+    
+    let pp = [84.16808859,25.16808859];
     for (let i = cordIdx.id || 0; i < dist * config.lineSignmentLength;) {
         const np = along(lineStringJson, i * sigmentLength, { units: "kilometers" });
         const nCords = np.geometry.coordinates;
 
+        // calculate bearing
+        const bearing = turf.bearing(turf.point(pp),turf.point(nCords));
+        pp = nCords;
+
         log(chalk.green(`Sent coordinates ${i + 1} for line ${id + 1} and coordinates:`), nCords);
-        socket.emit(custom.CORD_EVENT, custom.sendCurCords(nCords, id));
+        socket.emit(custom.CORD_EVENT, custom.sendCurCords(nCords, bearing,id));
         cordIdx.id = ++i;
         await sleep();
     }
@@ -70,7 +76,7 @@ function IO(io) {
         staticData.lines.forEach((line, id) => {
             // send static points
             log(chalk.green(`Sent line ${id + 1}`));
-            socket.emit(custom.WAY_POINT_EVENT, custom.sendLine(line, id));
+            socket.emit(custom.WAY_POINT_EVENT, line.geometry.coordinates);
         });
 
         input.lines.forEach((line, id) => {

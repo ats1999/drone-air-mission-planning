@@ -3,9 +3,13 @@
  * @param {Array} cords [longitude,latitude]
  * @param {Number} id index as id of the drone
  */
-function sendCurCords(cords, id) {
+function sendCurCords(cords,bearing, id) {
+    console.log({bearing})
     return {
-        id,cords
+        id,
+        'gps.lon':cords[0],
+        'gps.lat':cords[1],
+        heading:bearing
     };
 }
 
@@ -22,8 +26,8 @@ function sendLine(line, id) {
 /**
  * Events names
  */
-const CORD_EVENT = "cords";
-const WAY_POINT_EVENT = "static_data";
+const CORD_EVENT = "path_order";
+const WAY_POINT_EVENT = "way_points-client-merchant";
 
 module.exports = {
     sendCurCords, CORD_EVENT, WAY_POINT_EVENT, sendLine
